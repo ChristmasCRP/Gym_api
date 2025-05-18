@@ -21,9 +21,10 @@ Uruchomienie projektu
 
 1. Klonowanie repozytorium:
 git clone https://github.com/ChristmasCRP/Gym_api.git
+
 cd Gym_api
 
-2. Otwórz projekt w Visual Studio:
+3. Otwórz projekt w Visual Studio:
 - Otwórz plik Gym_api.sln
 
 3. Ustaw połączenie z bazą w pliku appsettings.json:
@@ -45,10 +46,15 @@ Uploadowane pliki:
 
 Przykładowe endpointy API:
 GET    /api/GymMembers                   - lista wszystkich członków
+
 GET    /api/GymMembers/{id}              - dane konkretnego członka
+
 POST   /api/GymMembers                   - dodanie nowego członka
+
 PUT    /api/GymMembers/{id}              - edycja danych
+
 DELETE /api/GymMembers/{id}              - usunięcie członka
+
 POST   /api/GymMembers/{id}/upload-plan  - upload pliku JPG
 
 Autorzy:
