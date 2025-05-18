@@ -143,5 +143,30 @@ namespace Gym_api.Controllers
                 return StatusCode(500, "Something went wrong");
             }
         }
+
+        [HttpPost("{id}/upload-plan")]
+        public async Task<IActionResult> UploadPlan(int id, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file provided.");
+
+            var member = await _context.GymMembers.FindAsync(id);
+            if (member == null)
+                return NotFound("GymMember not found.");
+
+            var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+            var filePath = Path.Combine("wwwroot/uploads", fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            member.PlanFilePath = $"/uploads/{fileName}";
+            await _context.SaveChangesAsync();
+
+            return Ok(new { path = member.PlanFilePath });
+        }
+
     }
 }

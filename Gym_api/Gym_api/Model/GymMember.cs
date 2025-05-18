@@ -19,5 +19,8 @@ namespace Gym_api.Model
 
         [ForeignKey("Enrollment")]
         public int EnrollmentId { get; set; }
+
+        public string? PlanFilePath { get; set; }
+
     }
 }

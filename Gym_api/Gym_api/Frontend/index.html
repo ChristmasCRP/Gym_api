@@ -10,69 +10,65 @@
     <div class="container mt-5">
         <h1 class="text-center text-success mb-4">Gym Management</h1>
 
+        <!-- Add Member -->
         <div class="card mb-4 bg-secondary text-light">
-            <div class="card-header text-success">
-                Add New Gym Member
-            </div>
+            <div class="card-header text-success">Add New Gym Member</div>
             <div class="card-body">
                 <form id="addMemberForm">
                     <div class="mb-3">
                         <label for="memberName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="memberName" placeholder="Enter name" required>
+                        <input type="text" class="form-control" id="memberName" required>
                     </div>
                     <div class="mb-3">
                         <label for="memberSurname" class="form-label">Surname</label>
-                        <input type="text" class="form-control" id="memberSurname" placeholder="Enter surname" required>
+                        <input type="text" class="form-control" id="memberSurname" required>
                     </div>
                     <div class="mb-3">
                         <label for="membershipType" class="form-label">Membership Type</label>
-                        <input type="text" class="form-control" id="membershipType" placeholder="Enter membership type" required>
+                        <input type="text" class="form-control" id="membershipType" required>
                     </div>
                     <div class="mb-3">
                         <label for="enrollmentId" class="form-label">Enrollment ID</label>
-                        <input type="number" class="form-control" id="enrollmentId" placeholder="Enter enrollment ID" required>
+                        <input type="number" class="form-control" id="enrollmentId" required>
                     </div>
                     <button type="submit" class="btn btn-success">Add Member</button>
                 </form>
             </div>
         </div>
 
+        <!-- Update Member -->
         <div class="card mb-4 bg-secondary text-light">
-            <div class="card-header text-warning">
-                Update Gym Member
-            </div>
+            <div class="card-header text-warning">Update Gym Member</div>
             <div class="card-body">
                 <form id="updateMemberForm">
                     <div class="mb-3">
                         <label for="updateMemberId" class="form-label">Member ID</label>
-                        <input type="number" class="form-control" id="updateMemberId" placeholder="Enter Member ID" required>
+                        <input type="number" class="form-control" id="updateMemberId" required>
                     </div>
                     <div class="mb-3">
                         <label for="updateMemberName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="updateMemberName" placeholder="Enter new name" required>
+                        <input type="text" class="form-control" id="updateMemberName" required>
                     </div>
                     <div class="mb-3">
                         <label for="updateMemberSurname" class="form-label">Surname</label>
-                        <input type="text" class="form-control" id="updateMemberSurname" placeholder="Enter new surname" required>
+                        <input type="text" class="form-control" id="updateMemberSurname" required>
                     </div>
                     <div class="mb-3">
                         <label for="updateMembershipType" class="form-label">Membership Type</label>
-                        <input type="text" class="form-control" id="updateMembershipType" placeholder="Enter new membership type" required>
+                        <input type="text" class="form-control" id="updateMembershipType" required>
                     </div>
                     <div class="mb-3">
                         <label for="updateEnrollmentId" class="form-label">Enrollment ID</label>
-                        <input type="number" class="form-control" id="updateEnrollmentId" placeholder="Enter new enrollment ID" required>
+                        <input type="number" class="form-control" id="updateEnrollmentId" required>
                     </div>
                     <button type="submit" class="btn btn-warning">Update Member</button>
                 </form>
             </div>
         </div>
 
-
+        <!-- Delete Member -->
         <div class="card mb-4 bg-secondary text-light">
-            <div class="card-header text-danger">
-                Delete Gym Member
-            </div>
+            <div class="card-header text-danger">Delete Gym Member</div>
             <div class="card-body">
                 <div class="input-group">
                     <input type="number" id="deleteMemberId" class="form-control" placeholder="Enter Member ID">
@@ -81,10 +77,9 @@
             </div>
         </div>
 
+        <!-- Find Member -->
         <div class="card mb-4 bg-secondary text-light">
-            <div class="card-header text-info">
-                Find Gym Member
-            </div>
+            <div class="card-header text-info">Find Gym Member</div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <input type="number" id="searchMemberId" class="form-control" placeholder="Enter Member ID">
@@ -99,10 +94,40 @@
             </div>
         </div>
 
-        <div class="card bg-secondary text-light">
-            <div class="card-header text-primary">
-                Members List
+        <!-- Upload Info Image -->
+        <div class="card mb-4 bg-secondary text-light">
+            <div class="card-header text-info">Upload Info Image (JPG)</div>
+            <div class="card-body">
+                <form id="uploadForm">
+                    <div class="mb-3">
+                        <label for="uploadMemberId" class="form-label">Member ID</label>
+                        <input type="number" class="form-control" id="uploadMemberId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="planFile" class="form-label">Select JPG file</label>
+                        <input type="file" class="form-control" id="planFile" accept="image/jpeg" required>
+                    </div>
+                    <button type="submit" class="btn btn-info">Upload</button>
+                </form>
+                <div id="uploadResult" class="mt-3 text-success"></div>
             </div>
+        </div>
+
+        <!-- View Uploaded Image -->
+        <div class="card mb-4 bg-secondary text-light">
+            <div class="card-header text-primary">View Member Info Image</div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <input type="number" id="planViewerId" class="form-control" placeholder="Enter Member ID">
+                    <button id="viewPlanBtn" class="btn btn-primary">Show Image</button>
+                </div>
+                <div id="planPreview" class="mt-3"></div>
+            </div>
+        </div>
+
+        <!-- List All Members -->
+        <div class="card bg-secondary text-light">
+            <div class="card-header text-primary">Members List</div>
             <div class="card-body">
                 <button id="showAllMembersBtn" class="btn btn-primary mb-3">Show All Members</button>
                 <ul id="membersList" class="list-group d-none"></ul>
@@ -113,136 +138,116 @@
     <script>
         const baseUrl = 'https://localhost:7153/api/GymMembers';
 
-        function loadAllMembers() {
-            fetch(baseUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const membersList = document.getElementById('membersList');
-                    membersList.innerHTML = '';
-                    membersList.classList.remove('d-none');
-
-                    data.forEach(member => {
-                        membersList.innerHTML += `
-                                        <li class="list-group-item bg-dark text-light">
-                                            <strong>${member.name} ${member.surname}</strong> - Membership Type: ${member.membershipType}, 
-                                            Enrollment ID: ${member.enrollmentId}, Join Date: ${new Date(member.joinDate).toLocaleDateString()}
-                                        </li>`;
-                    });
-                })
-                .catch(error => console.error('Error loading members:', error));
-        }
-
-        function findMemberById(id) {
-            fetch(`${baseUrl}/${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Member not found');
-                    }
-                    return response.json();
-                })
-                .then(member => {
-                    const memberDetails = document.getElementById('memberDetails');
-                    const memberInfo = document.getElementById('memberInfo');
-
-                    memberInfo.innerHTML = `
-                                    <strong>Name:</strong> ${member.name}<br>
-                                    <strong>Surname:</strong> ${member.surname}<br>
-                                    <strong>Membership Type:</strong> ${member.membershipType}<br>
-                                    <strong>Enrollment ID:</strong> ${member.enrollmentId}<br>
-                                    <strong>Join Date:</strong> ${new Date(member.joinDate).toLocaleDateString()}`;
-
-                    memberDetails.classList.remove('d-none');
-                })
-                .catch(error => {
-                    alert('Member not found');
-                    console.error(error);
-                });
-        }
-
         document.getElementById('addMemberForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
-            const memberName = document.getElementById('memberName').value;
-            const memberSurname = document.getElementById('memberSurname').value;
-            const membershipType = document.getElementById('membershipType').value;
-            const enrollmentId = parseInt(document.getElementById('enrollmentId').value);
-
+            const data = {
+                name: document.getElementById('memberName').value,
+                surname: document.getElementById('memberSurname').value,
+                membershipType: document.getElementById('membershipType').value,
+                enrollmentId: parseInt(document.getElementById('enrollmentId').value),
+                joinDate: new Date().toISOString()
+            };
             fetch(baseUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: memberName,
-                    surname: memberSurname,
-                    membershipType: membershipType,
-                    enrollmentId: enrollmentId,
-                    joinDate: new Date().toISOString()
-                })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        loadAllMembers();
-                        alert('Member added successfully!');
-                    } else {
-                        alert('Failed to add member.');
-                    }
-                })
-                .catch(error => console.error('Error adding member:', error));
+                body: JSON.stringify(data)
+            }).then(r => r.ok ? (alert('Member added'), loadAllMembers()) : alert('Failed'));
+        });
+
+        document.getElementById('updateMemberForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('updateMemberId').value);
+            const data = {
+                id,
+                name: document.getElementById('updateMemberName').value,
+                surname: document.getElementById('updateMemberSurname').value,
+                membershipType: document.getElementById('updateMembershipType').value,
+                enrollmentId: parseInt(document.getElementById('updateEnrollmentId').value)
+            };
+            fetch(`${baseUrl}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(r => r.ok ? (alert('Updated'), loadAllMembers()) : alert('Failed'));
+        });
+
+        document.getElementById('deleteMemberBtn').addEventListener('click', function () {
+            const id = parseInt(document.getElementById('deleteMemberId').value);
+            fetch(`${baseUrl}/${id}`, { method: 'DELETE' })
+                .then(r => r.ok ? (alert('Deleted'), loadAllMembers()) : alert('Failed'));
         });
 
         document.getElementById('findMemberBtn').addEventListener('click', function () {
-            const memberId = parseInt(document.getElementById('searchMemberId').value);
-            findMemberById(memberId);
+            const id = parseInt(document.getElementById('searchMemberId').value);
+            fetch(`${baseUrl}/${id}`)
+                .then(res => res.json())
+                .then(member => {
+                    const info = `
+                            <strong>Name:</strong> ${member.name}<br>
+                            <strong>Surname:</strong> ${member.surname}<br>
+                            <strong>Membership Type:</strong> ${member.membershipType}<br>
+                            <strong>Enrollment ID:</strong> ${member.enrollmentId}<br>
+                            <strong>Join Date:</strong> ${new Date(member.joinDate).toLocaleDateString()}`;
+                    document.getElementById('memberInfo').innerHTML = info;
+                    document.getElementById('memberDetails').classList.remove('d-none');
+                });
         });
 
         document.getElementById('showAllMembersBtn').addEventListener('click', function () {
             loadAllMembers();
         });
 
-        document.getElementById('deleteMemberBtn').addEventListener('click', function () {
-            const memberId = parseInt(document.getElementById('deleteMemberId').value);
+        function loadAllMembers() {
+            fetch(baseUrl)
+                .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById('membersList');
+                    list.innerHTML = '';
+                    list.classList.remove('d-none');
+                    data.forEach(member => {
+                        list.innerHTML += `
+                            <li class="list-group-item bg-dark text-light">
+                                <strong>ID:</strong> ${member.id} |
+                                <strong>${member.name} ${member.surname}</strong> –
+                                Membership: ${member.membershipType},
+                                Enrollment ID: ${member.enrollmentId},
+                                Join Date: ${new Date(member.joinDate).toLocaleDateString()}
+                            </li>`;
+                    });
+                });
+        }
 
-            fetch(`${baseUrl}/${memberId}`, { method: 'DELETE' })
-                .then(response => {
-                    if (response.ok) {
-                        loadAllMembers();
-                        alert('Member deleted successfully!');
-                    } else {
-                        alert('Failed to delete member.');
-                    }
-                })
-                .catch(error => console.error('Error deleting member:', error));
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = document.getElementById('uploadMemberId').value;
+            const file = document.getElementById('planFile').files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch(`${baseUrl}/${id}/upload-plan`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('uploadResult').innerHTML =
+                        `Uploaded! <a href="${data.path}" target="_blank">View Image</a>`;
+                });
         });
 
-        document.getElementById('updateMemberForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            
-            const memberId = parseInt(document.getElementById('updateMemberId').value);
-            const memberName = document.getElementById('updateMemberName').value;
-            const memberSurname = document.getElementById('updateMemberSurname').value;
-            const membershipType = document.getElementById('updateMembershipType').value;
-            const enrollmentId = parseInt(document.getElementById('updateEnrollmentId').value);
-
-            fetch(`${baseUrl}/${memberId}`, {
-                method: 'PUT', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    id: memberId,
-                    name: memberName,
-                    surname: memberSurname,
-                    membershipType: membershipType,
-                    enrollmentId: enrollmentId,
+        document.getElementById('viewPlanBtn').addEventListener('click', function () {
+            const id = parseInt(document.getElementById('planViewerId').value);
+            fetch(`${baseUrl}/${id}`)
+                .then(res => res.json())
+                .then(member => {
+                    const preview = document.getElementById('planPreview');
+                    preview.innerHTML = member.planFilePath ?
+                        `<img src="${member.planFilePath}" class="img-fluid" alt="Info Image">` :
+                        `<p class="text-warning">No image available.</p>`;
                 })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        loadAllMembers();
-                        alert('Member updated successfully!');
-                    } else {
-                        alert('Failed to update member.');
-                    }
-                })
-                .catch(error => console.error('Error updating member:', error));
+                .catch(error => {
+                    document.getElementById('planPreview').innerHTML = `<p class="text-danger">${error.message}</p>`;
+                });
         });
     </script>
 </body>
