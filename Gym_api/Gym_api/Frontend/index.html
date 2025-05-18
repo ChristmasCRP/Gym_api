@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="container mt-5">
+        <h1 class="text-center text-success mb-4">Gym Management</h1>
+
+        <div class="card mb-4 bg-secondary text-light">
+            <div class="card-header text-success">
+                Add New Gym Member
+            </div>
+            <div class="card-body">
+                <form id="addMemberForm">
+                    <div class="mb-3">
+                        <label for="memberName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="memberName" placeholder="Enter name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="memberSurname" class="form-label">Surname</label>
+                        <input type="text" class="form-control" id="memberSurname" placeholder="Enter surname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="membershipType" class="form-label">Membership Type</label>
+                        <input type="text" class="form-control" id="membershipType" placeholder="Enter membership type" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="enrollmentId" class="form-label">Enrollment ID</label>
+                        <input type="number" class="form-control" id="enrollmentId" placeholder="Enter enrollment ID" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Member</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4 bg-secondary text-light">
+            <div class="card-header text-warning">
+                Update Gym Member
+            </div>
+            <div class="card-body">
+                <form id="updateMemberForm">
+                    <div class="mb-3">
+                        <label for="updateMemberId" class="form-label">Member ID</label>
+                        <input type="number" class="form-control" id="updateMemberId" placeholder="Enter Member ID" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateMemberName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="updateMemberName" placeholder="Enter new name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateMemberSurname" class="form-label">Surname</label>
+                        <input type="text" class="form-control" id="updateMemberSurname" placeholder="Enter new surname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateMembershipType" class="form-label">Membership Type</label>
+                        <input type="text" class="form-control" id="updateMembershipType" placeholder="Enter new membership type" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateEnrollmentId" class="form-label">Enrollment ID</label>
+                        <input type="number" class="form-control" id="updateEnrollmentId" placeholder="Enter new enrollment ID" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update Member</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="card mb-4 bg-secondary text-light">
+            <div class="card-header text-danger">
+                Delete Gym Member
+            </div>
+            <div class="card-body">
+                <div class="input-group">
+                    <input type="number" id="deleteMemberId" class="form-control" placeholder="Enter Member ID">
+                    <button id="deleteMemberBtn" class="btn btn-danger">Delete Member</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4 bg-secondary text-light">
+            <div class="card-header text-info">
+                Find Gym Member
+            </div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <input type="number" id="searchMemberId" class="form-control" placeholder="Enter Member ID">
+                    <button id="findMemberBtn" class="btn btn-info">Find Member</button>
+                </div>
+                <div id="memberDetails" class="card d-none bg-dark text-light">
+                    <div class="card-body">
+                        <h5 class="card-title text-info">Member Details</h5>
+                        <p id="memberInfo"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-secondary text-light">
+            <div class="card-header text-primary">
+                Members List
+            </div>
+            <div class="card-body">
+                <button id="showAllMembersBtn" class="btn btn-primary mb-3">Show All Members</button>
+                <ul id="membersList" class="list-group d-none"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = 'https://localhost:7153/api/GymMembers';
+
+        function loadAllMembers() {
+            fetch(baseUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const membersList = document.getElementById('membersList');
+                    membersList.innerHTML = '';
+                    membersList.classList.remove('d-none');
+
+                    data.forEach(member => {
+                        membersList.innerHTML += `
+                                        <li class="list-group-item bg-dark text-light">
+                                            <strong>${member.name} ${member.surname}</strong> - Membership Type: ${member.membershipType}, 
+                                            Enrollment ID: ${member.enrollmentId}, Join Date: ${new Date(member.joinDate).toLocaleDateString()}
+                                        </li>`;
+                    });
+                })
+                .catch(error => console.error('Error loading members:', error));
+        }
+
+        function findMemberById(id) {
+            fetch(`${baseUrl}/${id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Member not found');
+                    }
+                    return response.json();
+                })
+                .then(member => {
+                    const memberDetails = document.getElementById('memberDetails');
+                    const memberInfo = document.getElementById('memberInfo');
+
+                    memberInfo.innerHTML = `
+                                    <strong>Name:</strong> ${member.name}<br>
+                                    <strong>Surname:</strong> ${member.surname}<br>
+                                    <strong>Membership Type:</strong> ${member.membershipType}<br>
+                                    <strong>Enrollment ID:</strong> ${member.enrollmentId}<br>
+                                    <strong>Join Date:</strong> ${new Date(member.joinDate).toLocaleDateString()}`;
+
+                    memberDetails.classList.remove('d-none');
+                })
+                .catch(error => {
+                    alert('Member not found');
+                    console.error(error);
+                });
+        }
+
+        document.getElementById('addMemberForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const memberName = document.getElementById('memberName').value;
+            const memberSurname = document.getElementById('memberSurname').value;
+            const membershipType = document.getElementById('membershipType').value;
+            const enrollmentId = parseInt(document.getElementById('enrollmentId').value);
+
+            fetch(baseUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: memberName,
+                    surname: memberSurname,
+                    membershipType: membershipType,
+                    enrollmentId: enrollmentId,
+                    joinDate: new Date().toISOString()
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        loadAllMembers();
+                        alert('Member added successfully!');
+                    } else {
+                        alert('Failed to add member.');
+                    }
+                })
+                .catch(error => console.error('Error adding member:', error));
+        });
+
+        document.getElementById('findMemberBtn').addEventListener('click', function () {
+            const memberId = parseInt(document.getElementById('searchMemberId').value);
+            findMemberById(memberId);
+        });
+
+        document.getElementById('showAllMembersBtn').addEventListener('click', function () {
+            loadAllMembers();
+        });
+
+        document.getElementById('deleteMemberBtn').addEventListener('click', function () {
+            const memberId = parseInt(document.getElementById('deleteMemberId').value);
+
+            fetch(`${baseUrl}/${memberId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        loadAllMembers();
+                        alert('Member deleted successfully!');
+                    } else {
+                        alert('Failed to delete member.');
+                    }
+                })
+                .catch(error => console.error('Error deleting member:', error));
+        });
+
+        document.getElementById('updateMemberForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            
+            const memberId = parseInt(document.getElementById('updateMemberId').value);
+            const memberName = document.getElementById('updateMemberName').value;
+            const memberSurname = document.getElementById('updateMemberSurname').value;
+            const membershipType = document.getElementById('updateMembershipType').value;
+            const enrollmentId = parseInt(document.getElementById('updateEnrollmentId').value);
+
+            fetch(`${baseUrl}/${memberId}`, {
+                method: 'PUT', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: memberId,
+                    name: memberName,
+                    surname: memberSurname,
+                    membershipType: membershipType,
+                    enrollmentId: enrollmentId,
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        loadAllMembers();
+                        alert('Member updated successfully!');
+                    } else {
+                        alert('Failed to update member.');
+                    }
+                })
+                .catch(error => console.error('Error updating member:', error));
+        });
+    </script>
+</body>
+</html>
