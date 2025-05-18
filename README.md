@@ -20,7 +20,7 @@ Technologie
 Uruchomienie projektu
 
 1. Klonowanie repozytorium:
-git clone https://github.com/twoja-nazwa/Gym_api.git
+git clone https://github.com/ChristmasCRP/Gym_api.git
 cd Gym_api
 
 2. Otwórz projekt w Visual Studio:
