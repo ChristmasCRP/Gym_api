@@ -105,7 +105,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="planFile" class="form-label">Select JPG file</label>
-                        <input type="file" class="form-control" id="planFile" accept="image/jpeg" required>
+                        <input type="file" class="form-control" id="planFile" required>
                     </div>
                     <button type="submit" class="btn btn-info">Upload</button>
                 </form>
@@ -241,14 +241,22 @@
                 .then(res => res.json())
                 .then(member => {
                     const preview = document.getElementById('planPreview');
-                    preview.innerHTML = member.planFilePath ?
-                        `<img src="${member.planFilePath}" class="img-fluid" alt="Info Image">` :
-                        `<p class="text-warning">No image available.</p>`;
+                    if (member.planFilePath) {
+                        const ext = member.planFilePath.split('.').pop().toLowerCase();
+                        if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) {
+                            preview.innerHTML = `<img src="${member.planFilePath}" class="img-fluid" alt="Info Image">`;
+                        } else {
+                            preview.innerHTML = `<a href="${member.planFilePath}" target="_blank" class="btn btn-outline-info">Open File</a>`;
+                        }
+                    } else {
+                        preview.innerHTML = `<p class="text-warning">No file available.</p>`;
+                    }
                 })
                 .catch(error => {
                     document.getElementById('planPreview').innerHTML = `<p class="text-danger">${error.message}</p>`;
                 });
         });
+
     </script>
 </body>
 </html>

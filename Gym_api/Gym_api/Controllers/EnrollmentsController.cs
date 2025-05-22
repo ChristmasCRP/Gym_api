@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gym_api.Model;
+using Gym_api.DTO;
 
 namespace Gym_api.Controllers
 {
@@ -21,41 +18,94 @@ namespace Gym_api.Controllers
 
         // GET: api/Enrollments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Enrollment>>> GetEnrollments()
+        public async Task<ActionResult<IEnumerable<EnrollmentDTO>>> GetEnrollments()
         {
             var enrollments = await _context.Enrollments
                 .Include(e => e.GymMembers)
                 .ToListAsync();
-            return Ok(enrollments);
+
+            var dtoList = enrollments.Select(e => new EnrollmentDTO
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Hour = e.Hour,
+                Rating = e.Rating,
+                PlanFilePath = null,
+                GymMembers = e.GymMembers?.Select(m => new GymMemberDTO
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Surname = m.Surname,
+                    MembershipType = m.MembershipType,
+                    EnrollmentId = m.EnrollmentId,
+                    PlanFilePath = m.PlanFilePath,
+                    JoinDate = m.JoinDate
+                }).ToList() ?? new()
+            }).ToList();
+
+            return Ok(dtoList);
         }
 
         // GET: api/Enrollments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Enrollment>> GetEnrollment(int id)
+        public async Task<ActionResult<EnrollmentDTO>> GetEnrollment(int id)
         {
-            var enrollment = await _context.Enrollments
+            var e = await _context.Enrollments
                 .Include(e => e.GymMembers)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
-            if (enrollment == null)
-            {
+            if (e == null)
                 return NotFound();
-            }
 
-            return Ok(enrollment);
+            var dto = new EnrollmentDTO
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Hour = e.Hour,
+                Rating = e.Rating,
+                PlanFilePath = null,
+                GymMembers = e.GymMembers?.Select(m => new GymMemberDTO
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Surname = m.Surname,
+                    MembershipType = m.MembershipType,
+                    EnrollmentId = m.EnrollmentId,
+                    PlanFilePath = m.PlanFilePath,
+                    JoinDate = m.JoinDate
+                }).ToList() ?? new()
+            };
+
+            return Ok(dto);
         }
 
         // POST: api/Enrollments
         [HttpPost]
-        public async Task<ActionResult<Enrollment>> PostEnrollment(Enrollment enrollment)
+        public async Task<ActionResult<EnrollmentDTO>> PostEnrollment(CreateEnrollmentDTO dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var enrollment = new Enrollment
+            {
+                Name = dto.Name,
+                Hour = "00:00",
+                Rating = 3.0,
+                GymMembers = new List<GymMember>()
+            };
+
             _context.Enrollments.Add(enrollment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEnrollment", new { id = enrollment.Id }, enrollment);
+            return CreatedAtAction("GetEnrollment", new { id = enrollment.Id }, new EnrollmentDTO
+            {
+                Id = enrollment.Id,
+                Name = enrollment.Name,
+                Hour = enrollment.Hour,
+                Rating = enrollment.Rating,
+                PlanFilePath = null,
+                GymMembers = new()
+            });
         }
 
         // DELETE: api/Enrollments/5
@@ -75,18 +125,16 @@ namespace Gym_api.Controllers
                 _context.Enrollments.Remove(enrollment);
 
                 await _context.SaveChangesAsync();
+                return Ok();
             }
             catch (Exception ex)
             {
                 var finalException = ex;
                 while (finalException.InnerException != null)
-                {
-                    finalException = ex.InnerException;
-                }
+                    finalException = finalException.InnerException;
+
                 return new ObjectResult(finalException.Message) { StatusCode = 500 };
             }
-
-            return Ok();
         }
     }
 }
