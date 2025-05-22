@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -6,11 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gym_api.Model;
 using Gym_api.DTO;
-using System.IO;
 
 namespace Gym_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/members")]
     [ApiController]
     public class GymMembersController : ControllerBase
     {
@@ -21,7 +22,6 @@ namespace Gym_api.Controllers
             _context = context;
         }
 
-        // GET: api/GymMembers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GymMemberDTO>>> GetGymMembers()
         {
@@ -47,8 +47,7 @@ namespace Gym_api.Controllers
             }
         }
 
-        // GET: api/GymMembers/5
-        [HttpGet("{id}")]
+        [HttpGet("details/{id:int:min(1)}")]
         public async Task<ActionResult<GymMemberDTO>> GetGymMember(int id)
         {
             try
@@ -73,7 +72,6 @@ namespace Gym_api.Controllers
             }
         }
 
-        // POST: api/GymMembers
         [HttpPost]
         public async Task<ActionResult<GymMemberDTO>> PostGymMember(CreateGymMemberDTO dto)
         {
@@ -111,8 +109,7 @@ namespace Gym_api.Controllers
             }
         }
 
-        // PUT: api/GymMembers/5
-        [HttpPut("{id}")]
+        [HttpPut("update/{id:int:min(1)}")]
         public async Task<IActionResult> UpdateGymMember(int id, UpdateGymMemberDTO dto)
         {
             try
@@ -145,8 +142,7 @@ namespace Gym_api.Controllers
             }
         }
 
-        // DELETE: api/GymMembers/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id:int:min(1)}")]
         public async Task<IActionResult> DeleteGymMember(int id)
         {
             try
@@ -166,8 +162,7 @@ namespace Gym_api.Controllers
             }
         }
 
-        // POST: api/GymMembers/{id}/upload-plan
-        [HttpPost("{id}/upload-plan")]
+        [HttpPost("upload-plan/{id:int:min(1)}")]
         public async Task<IActionResult> UploadPlan(int id, IFormFile file)
         {
             if (file == null || file.Length == 0)

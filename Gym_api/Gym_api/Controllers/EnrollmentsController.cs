@@ -5,7 +5,7 @@ using Gym_api.DTO;
 
 namespace Gym_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/enrollments")]
     [ApiController]
     public class EnrollmentsController : ControllerBase
     {
@@ -16,7 +16,6 @@ namespace Gym_api.Controllers
             _context = context;
         }
 
-        // GET: api/Enrollments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EnrollmentDTO>>> GetEnrollments()
         {
@@ -46,8 +45,7 @@ namespace Gym_api.Controllers
             return Ok(dtoList);
         }
 
-        // GET: api/Enrollments/5
-        [HttpGet("{id}")]
+        [HttpGet("details/{id:int:min(1)}")]
         public async Task<ActionResult<EnrollmentDTO>> GetEnrollment(int id)
         {
             var e = await _context.Enrollments
@@ -79,7 +77,6 @@ namespace Gym_api.Controllers
             return Ok(dto);
         }
 
-        // POST: api/Enrollments
         [HttpPost]
         public async Task<ActionResult<EnrollmentDTO>> PostEnrollment(CreateEnrollmentDTO dto)
         {
@@ -108,8 +105,7 @@ namespace Gym_api.Controllers
             });
         }
 
-        // DELETE: api/Enrollments/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id:int:min(1)}")]
         public async Task<IActionResult> DeleteEnrollment(int id)
         {
             try
